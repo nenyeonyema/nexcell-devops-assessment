@@ -1,0 +1,59 @@
+name: CI
+
+on: [pull_request]
+
+permissions:
+  id-token: write   # needed for OIDC in the deploy job
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image tagged with commit SHA
+        run: docker build -t nexcell-app:${{ github.sha }} .
+
+      - name: Write .env for compose
+        run: cp .env.example .env
+
+      - name: Start stack
+        run: |
+          docker compose build
+          docker compose up -d
+          sleep 8
+
+      - name: Run smoke test
+        run: bash smoke_test.sh
+
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        continue-on-error: true   # skip safely with no real role configured
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}   # placeholder
+          aws-region: eu-west-2
+
+      - name: Deploy to ECS (placeholder)
+        if: env.AWS_ACCESS_KEY_ID != ''
+        run: |
+          echo "Would run: aws ecs update-service --cluster nexcell --service api --force-new-deployment"
+          echo "Would push image nexcell-app:${{ github.sha }} to ECR first"
