@@ -5,7 +5,7 @@
 * **Time Spent:** 3 hours
 
 ### AI Tools Used
-I used ChatGPT as a development and review assistant to help reason through the assessment requirements, review implementation decisions, and identify inconsistencies between the Dockerfile, Docker Compose configuration, and the required deployment behaviour.
+I used Claude for development and ChatGPT for review assistant to help reason through the assessment requirements, review implementation decisions, and identify inconsistencies between the Dockerfile, Docker Compose configuration, and the required deployment behaviour.
 
 I did not treat generated suggestions as the final implementation. I reviewed the decisions against the assessment requirements and kept the implementation deliberately small because the task specifically asks for a minimal stub application and warns against overbuilding.
 
