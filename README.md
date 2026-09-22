@@ -1,8 +1,15 @@
-
 # NexCell DevOps Internship Assessment
 
-**Name:** Chinenye Genevieve Onyema
-**Time Spent:** 3 hours
+## About Me
+* **Name:** Chinenye Genevieve Onyema
+* **Time Spent:** 3 hours
+
+### AI Tools Used
+I used ChatGPT as a development and review assistant to help reason through the assessment requirements, review implementation decisions, and identify inconsistencies between the Dockerfile, Docker Compose configuration, and the required deployment behaviour.
+
+I did not treat generated suggestions as the final implementation. I reviewed the decisions against the assessment requirements and kept the implementation deliberately small because the task specifically asks for a minimal stub application and warns against overbuilding.
+
+One deliberate decision was to keep the database migration as a small `app/migrate.py` script rather than introducing a full migration framework. The purpose of the stub is to demonstrate safe migration ordering, not to implement the customer's complete business database.
 
 ---
 
@@ -199,7 +206,7 @@ The assessment gives an AWS cost of approximately £1,415/month for 20 customers
 | **Admin instance** | £55 | £20 | £35 |
 | **Vector DB** | £130 | £110 | £20 |
 
-**Projected AWS cost:** £855/month
+**Projected AWS cost:** £855/month  
 **At 20 customers:**
 
 $$
@@ -270,22 +277,5 @@ nexcell-devops-assessment/
 ├── requirements.txt
 └── smoke_test.sh
 ```
-
----
-
-## 9. Final Verification
-
-Before submission:
-
-```bash
-docker compose config
-docker compose build
-docker compose up -d
-bash smoke_test.sh
-docker compose ps
-docker compose logs
-```
-
-I will also verify that no real secrets are present in the repository or commit history.
 
 
